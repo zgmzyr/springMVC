@@ -8,17 +8,68 @@
 	
 <!-- 	<bean name="/home" class="com.zgm.expertSpringMVCAndWebFlow._4.controller.HomeController"/>   -->
 
-	<context:component-scan base-package="com.zgm.springMVC_3_1.controller" />
+<!-- 	<context:component-scan base-package="com.zgm.springMVC_3_1.controller" /> -->
+	<context:component-scan base-package="com.zgm.springMVC_3_1.controller" >
+	</context:component-scan>
 	
-	<mvc:resources mapping="/resources/**" location="/resources/**" cache-period="3600"/>
+	<bean id="viewNameTranslator" class="org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator"> 
+	</bean>
 	
-<!-- 	<mvc:annotation-driven /> -->
-	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter" />
-	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" />
+	<bean id="www" class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"> 
+		<property name="order" value="0"/>
+	</bean>
 	
-	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix" value="/WEB-INF/jsp/" />
-		<property name="suffix" value=".jsp" />
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
+	
+	<mvc:annotation-driven />
+<!-- 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter" /> -->
+<!-- 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" /> -->
+	
+<!-- 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"> -->
+<!-- 		<property name="prefix" value="/WEB-INF/jsp/" /> -->
+<!-- 		<property name="suffix" value=".jsp" /> -->
+<!-- 	</bean> -->
+
+	 <bean id="multipartResolver"
+		  class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		  <property name="maxUploadSize" value="100000" />
+	 </bean>
+	
+	<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+		<property name="ignoreAcceptHeader" value="false" />
+
+		<property name="defaultContentType" value="application/json" />
+
+		<property name="mediaTypes">
+			<map>
+				<entry key="json" value="application/json" />
+				<entry key="xml" value="application/xml" />
+				<entry key="txt" value="text/html" />
+			</map>
+		</property>
+
+		<property name="favorParameter" value="true" />
+
+		<property name="viewResolvers">
+			<list>
+<!-- 				<bean class="org.springframework.web.servlet.view.BeanNameViewResolver" /> -->
+				<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+<!-- 					<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" /> -->
+					<property name="prefix" value="/WEB-INF/jsp/" />
+					<property name="suffix" value=".jsp" />
+				</bean>
+			</list>
+		</property>
+		<property name="defaultViews">
+			<list>
+				<bean class="org.springframework.web.servlet.view.json.MappingJacksonJsonView" />
+				<bean class="org.springframework.web.servlet.view.xml.MarshallingView">
+					<property name="marshaller">
+						<bean class="org.springframework.oxm.xstream.XStreamMarshaller" />
+					</property>
+				</bean>
+			</list>
+		</property>
 	</bean>
 	
 </beans>

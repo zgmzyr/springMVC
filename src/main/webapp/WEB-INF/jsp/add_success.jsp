@@ -9,8 +9,9 @@
 </head>
 <body>
 
-	姓名： "${userVO.name}"
-	年龄：  "${userVO.age}"
-	birthday：  "${userVO.birthday}"
+	姓名： ${userVO.name}
+	年龄： ${userVO.age}
+	birthday： ${userVO.birthday}
+	地址：${userVO.addressVO.value}
 </body>
 </html>
